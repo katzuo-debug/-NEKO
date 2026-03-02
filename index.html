@@ -1,478 +1,117 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NEKONOMI ($NEKO) — Cute. Chaotic. On Solana.</title>
-  <meta name="description" content="NEKONOMI ($NEKO) — the cute crypto cat on Solana. Meme coin. No promises. Just purr." />
-  <meta property="og:title" content="NEKONOMI ($NEKO)" />
-  <meta property="og:description" content="Cute outside. Ruthless inside. Purring through volatility." />
-  <meta property="og:type" content="website" />
-  <meta name="theme-color" content="#0b0b10" />
-  <style>
-    :root{
-      --bg:#0b0b10;
-      --card:#121222;
-      --text:#f6f6ff;
-      --muted:#b7b7d6;
-      --pink:#ff2d9a;
-      --pink2:#ff5bb6;
-      --aqua:#44e7ff;
-      --gold:#ffcc4d;
-      --line:rgba(255,255,255,.08);
-      --shadow: 0 18px 60px rgba(0,0,0,.45);
-      --radius: 22px;
-      --max: 1120px;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      color:var(--text);
-      background:
-        radial-gradient(900px 500px at 15% 10%, rgba(255,45,154,.18), transparent 55%),
-        radial-gradient(900px 500px at 85% 15%, rgba(68,231,255,.14), transparent 55%),
-        radial-gradient(900px 600px at 60% 95%, rgba(255,204,77,.10), transparent 55%),
-        linear-gradient(180deg, #07070c, var(--bg));
-      overflow-x:hidden;
-    }
-    a{color:inherit; text-decoration:none}
-    .wrap{max-width:var(--max); margin:0 auto; padding: 0 20px}
+import React from "react";
 
-    /* top nav */
-    .nav{
-      position:sticky; top:0; z-index:50;
-      backdrop-filter: blur(10px);
-      background: rgba(11,11,16,.55);
-      border-bottom:1px solid var(--line);
-    }
-    .nav-inner{display:flex; align-items:center; justify-content:space-between; padding:14px 0; gap:12px}
-    .brand{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.3px}
-    .pill{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:6px 10px; border:1px solid var(--line); border-radius:999px;
-      background: rgba(255,255,255,.04);
-    }
-    .dot{width:10px; height:10px; border-radius:999px; background: var(--pink); box-shadow:0 0 18px rgba(255,45,154,.65)}
-    .nav-links{display:flex; gap:14px; align-items:center; flex-wrap:wrap; justify-content:flex-end}
-    .nav-links a{color:var(--muted); font-weight:600; font-size:14px; padding:8px 10px; border-radius:999px}
-    .nav-links a:hover{color:var(--text); background: rgba(255,255,255,.05)}
+const TOKEN_NAME = "NEKONOMI";
+const TOKEN_JP = "ネコノミ";
+const TICKER = "$NEKO";
 
-    /* buttons */
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center; gap:10px;
-      padding: 12px 16px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.05);
-      color: var(--text);
-      font-weight: 800;
-      cursor: pointer;
-      transition: transform .12s ease, background .12s ease, border-color .12s ease;
-      user-select:none;
-      white-space:nowrap;
-    }
-    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.14)}
-    .btn-primary{
-      border-color: rgba(255,45,154,.35);
-      background: linear-gradient(135deg, rgba(255,45,154,.95), rgba(68,231,255,.40));
-      box-shadow: 0 18px 55px rgba(255,45,154,.20);
-    }
-    .btn-primary:hover{filter:brightness(1.03)}
-    .btn-outline{
-      border-color: rgba(68,231,255,.22);
-      background: rgba(68,231,255,.08);
-    }
+const LOGO_DATA_URI = ""; // optional
 
-    /* hero */
-    .hero{padding: 44px 0 26px}
-    .hero-grid{
-      display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 24px;
-      align-items: stretch;
-    }
-    .hero-card{
-      background: linear-gradient(180deg, rgba(18,18,34,.9), rgba(18,18,34,.65));
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 26px;
-      position:relative;
-      overflow:hidden;
-    }
-    .glow{
-      position:absolute; inset:-160px -120px auto auto;
-      width:420px; height:420px;
-      background: radial-gradient(circle at 30% 30%, rgba(255,45,154,.45), transparent 55%),
-                  radial-gradient(circle at 70% 60%, rgba(68,231,255,.25), transparent 55%);
-      filter: blur(1px);
-      pointer-events:none;
-      transform: rotate(18deg);
-    }
-    h1{margin:0 0 10px; font-size: 46px; line-height:1.05; letter-spacing:-.8px}
-    .jp{display:inline-block; padding:6px 12px; border-radius:999px; border:1px solid var(--line); background: rgba(0,0,0,.22); color:#fff; font-weight:900; letter-spacing:1px}
-    .lead{margin: 10px 0 18px; color: var(--muted); font-size: 16px; line-height: 1.6}
-    .badges{display:flex; flex-wrap:wrap; gap:10px; margin: 16px 0 18px}
-    .badge{padding:8px 12px; border-radius:999px; border:1px solid var(--line); background: rgba(255,255,255,.04); color: var(--muted); font-weight:700; font-size:13px}
-    .badge b{color: var(--text)}
-    .cta{display:flex; gap:12px; flex-wrap:wrap; margin-top: 14px}
+function Button({ children, href }) {
+  return (
+    <a
+      href={href}
+      className="inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold tracking-wide transition bg-white text-black hover:opacity-90"
+    >
+      {children}
+    </a>
+  );
+}
 
-    .art{
-      display:flex; flex-direction:column; gap:14px;
-    }
-    .logo-card{
-      background: linear-gradient(180deg, rgba(18,18,34,.9), rgba(18,18,34,.65));
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 18px;
-      overflow:hidden;
-      position:relative;
-      min-height: 260px;
-    }
-    .logo-wrap{
-      height: 100%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-    .logo{
-      width: 100%;
-      max-width: 320px;
-      aspect-ratio: 1 / 1;
-      border-radius: 28px;
-      border: 1px dashed rgba(255,255,255,.18);
-      background: rgba(0,0,0,.22);
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      text-align:center;
-      padding: 18px;
-    }
-    .logo strong{font-size: 22px; letter-spacing:.4px}
-    .logo span{color: var(--muted); font-weight:700; font-size: 13px; line-height:1.4}
-    .logo small{color: rgba(255,255,255,.65); font-weight:800; font-size: 12px}
-    .mini{
-      display:grid; grid-template-columns: 1fr 1fr; gap: 12px;
-    }
-    .mini .box{
-      background: rgba(255,255,255,.03);
-      border:1px solid var(--line);
-      border-radius: 18px;
-      padding: 14px;
-      min-height: 96px;
-    }
-    .k{font-weight:900; letter-spacing:.2px}
-    .v{margin-top:6px; color:var(--muted); font-weight:700; font-size:13px; line-height:1.45}
-
-    /* sections */
-    section{padding: 26px 0}
-    .section-title{display:flex; align-items:flex-end; justify-content:space-between; gap:14px; margin-bottom: 14px}
-    h2{margin:0; font-size: 26px; letter-spacing:-.3px}
-    .hint{color: var(--muted); font-weight:700; font-size: 14px}
-    .grid3{display:grid; grid-template-columns: repeat(3, 1fr); gap: 14px}
-    .card{
-      background: rgba(18,18,34,.72);
-      border:1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 18px;
-      box-shadow: 0 10px 40px rgba(0,0,0,.25);
-    }
-    .card h3{margin: 0 0 8px; font-size: 16px}
-    .card p{margin:0; color: var(--muted); font-weight:650; font-size: 14px; line-height:1.6}
-
-    /* how to buy */
-    .steps{display:grid; grid-template-columns: 1.25fr .75fr; gap: 14px; align-items:stretch}
-    .ol{margin:0; padding:0; list-style:none; display:grid; gap: 10px}
-    .li{
-      display:flex; gap:12px; align-items:flex-start;
-      padding: 14px;
-      border-radius: 18px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.03);
-    }
-    .n{
-      min-width: 30px; height: 30px;
-      border-radius: 10px;
-      display:flex; align-items:center; justify-content:center;
-      background: rgba(255,45,154,.20);
-      border: 1px solid rgba(255,45,154,.28);
-      font-weight: 900;
-    }
-    .li b{display:block; margin-bottom: 4px}
-    .li span{color: var(--muted); font-weight:650; font-size: 14px; line-height:1.55}
-
-    /* footer */
-    footer{padding: 26px 0 36px; border-top:1px solid var(--line); margin-top: 10px}
-    .foot{display:flex; gap: 14px; align-items:flex-start; justify-content:space-between; flex-wrap:wrap}
-    .fine{max-width: 760px; color: rgba(255,255,255,.65); font-weight:650; font-size: 13px; line-height:1.6}
-    .social{display:flex; gap:10px; flex-wrap:wrap}
-
-    /* responsive */
-    @media (max-width: 980px){
-      .hero-grid{grid-template-columns: 1fr;}
-      h1{font-size: 40px}
-      .steps{grid-template-columns: 1fr;}
-      .grid3{grid-template-columns: 1fr;}
-      .mini{grid-template-columns: 1fr;}
-    }
-
-    /* small helper */
-    .row{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
-    .copy{
-      display:flex; gap:10px; align-items:center; justify-content:space-between;
-      padding: 12px 14px; border-radius: 16px; border:1px solid var(--line);
-      background: rgba(255,255,255,.03);
-      margin-top: 14px;
-    }
-    code{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; color:#fff}
-    .toast{position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%);
-      background: rgba(0,0,0,.72); border:1px solid rgba(255,255,255,.14);
-      padding: 10px 14px; border-radius: 999px; color:#fff; font-weight:800; font-size: 13px;
-      box-shadow: 0 16px 60px rgba(0,0,0,.45);
-      opacity:0; pointer-events:none; transition: opacity .18s ease, transform .18s ease;
-    }
-    .toast.show{opacity:1; transform: translateX(-50%) translateY(-4px)}
-  </style>
-</head>
-<body>
-  <div class="nav">
-    <div class="wrap nav-inner">
-      <div class="brand">
-        <div class="pill"><span class="dot"></span><span>NEKONOMI</span></div>
-        <span style="color:var(--muted); font-weight:800; font-size:13px">$NEKO</span>
+export default function NekonomiHomepage() {
+  return (
+    <div className="min-h-screen bg-black text-white font-[Inter]">
+      {/* Subtle background glow */}
+      <div className="pointer-events-none fixed inset-0 -z-10">
+        <div className="absolute left-1/2 top-[-200px] h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-pink-600/20 blur-[120px]" />
       </div>
-      <div class="nav-links">
-        <a href="#about">About</a>
-        <a href="#token">Token</a>
-        <a href="#buy">How to buy</a>
-        <a href="#memes">Memes</a>
-        <a class="btn btn-primary" href="#buy" aria-label="Buy on Pump.fun">Buy on Pump.fun</a>
-      </div>
-    </div>
-  </div>
 
-  <header class="hero">
-    <div class="wrap hero-grid">
-      <div class="hero-card">
-        <div class="glow" aria-hidden="true"></div>
-        <div class="row" style="gap:12px">
-          <span class="jp">ネコノミ</span>
-          <span class="badge"><b>Cute</b> outside</span>
-          <span class="badge"><b>Ruthless</b> inside</span>
-        </div>
-        <h1>
-          NEKONOMI <span style="color:var(--pink)">($NEKO)</span>
-        </h1>
-        <p class="lead">
-          The kawaii crypto cat raised by candlestick charts. No promises. No utility talk.
-          Just a meme coin that purrs through volatility.
-        </p>
-        <div class="badges">
-          <span class="badge">Chain: <b>Solana</b></span>
-          <span class="badge">Vibe: <b>Neon / Kawaii</b></span>
-          <span class="badge">Community: <b>The Pride</b></span>
-        </div>
-        <div class="cta">
-          <a class="btn btn-primary" href="#buy">Buy on Pump.fun</a>
-          <a class="btn btn-outline" href="#memes">Get meme captions</a>
-          <a class="btn" href="#token">Token info</a>
-        </div>
-
-        <div class="copy" id="caBox">
-          <div>
-            <div style="color:var(--muted); font-weight:800; font-size:12px">Contract Address (CA)</div>
-            <code id="ca">COMING_SOON</code>
+      {/* Navigation */}
+      <nav className="border-b border-white/10">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
+          <div className="flex items-center gap-3">
+            <div className="h-2.5 w-2.5 rounded-full bg-pink-500" />
+            <span className="text-sm tracking-[0.3em] font-semibold">{TOKEN_NAME}</span>
           </div>
-          <button class="btn" id="copyBtn" type="button">Copy</button>
+          <Button href="#buy">Buy on Pump.fun</Button>
         </div>
-        <div style="margin-top:10px; color:rgba(255,255,255,.55); font-weight:700; font-size:12px">
-          Tip: Replace <code>COMING_SOON</code> after launch.
-        </div>
-      </div>
+      </nav>
 
-      <div class="art">
-        <div class="logo-card">
-          <div class="logo-wrap">
-            <div class="logo-wrap">
+      {/* Hero */}
+      <header className="mx-auto grid max-w-6xl grid-cols-1 gap-12 px-6 py-24 lg:grid-cols-2 lg:items-center">
+        <div>
+          <div className="mb-6 text-sm tracking-[0.4em] text-white/60">{TOKEN_JP}</div>
+          <h1 className="text-5xl font-light leading-tight tracking-tight md:text-6xl">
+            {TOKEN_NAME} <span className="text-white/40">({TICKER})</span>
+          </h1>
+          <p className="mt-6 max-w-xl text-lg text-white/60 leading-relaxed">
+            A refined meme coin experience built on Solana. Minimal design.
+            Clean presence. Pure narrative.
+          </p>
+
+          <div className="mt-10 flex flex-wrap gap-4">
+            <Button href="#buy">Enter the Market</Button>
+            <a href="#about" className="text-sm text-white/60 hover:text-white transition">
+              Learn more
+            </a>
+          </div>
+        </div>
+
+        <div className="flex justify-center">
+          {LOGO_DATA_URI ? (
             <img
-              src=""+data_uri+""
-              alt="NEKONOMI coin logo"
-              style="width:100%; max-width:340px; border-radius:28px; box-shadow:0 18px 60px rgba(0,0,0,.35); border:1px solid rgba(255,255,255,.10); background:#000"
+              src={LOGO_DATA_URI}
+              alt="NEKONOMI logo"
+              className="w-full max-w-md rounded-3xl border border-white/10 shadow-2xl"
             />
-          </div>
+          ) : (
+            <div className="flex h-[380px] w-[380px] items-center justify-center rounded-3xl border border-white/10 bg-white/5 text-white/40">
+              Logo Placeholder
+            </div>
+          )}
         </div>
-    </div>
-  </header>
+      </header>
 
-  <main>
-    <section id="about">
-      <div class="wrap">
-        <div class="section-title">
-          <h2>About</h2>
-          <div class="hint">Cute coin. Sharp claws.</div>
+      {/* About */}
+      <section id="about" className="border-t border-white/10">
+        <div className="mx-auto max-w-4xl px-6 py-24 text-center">
+          <h2 className="text-3xl font-light tracking-tight">Minimal. Intentional. Premium.</h2>
+          <p className="mt-6 text-white/60 leading-relaxed">
+            NEKONOMI is positioned as a clean, aesthetic-first meme coin brand.
+            No noise. No clutter. Just sharp identity and strong market presence.
+          </p>
         </div>
-        <div class="grid3">
-          <div class="card">
-            <h3>🐾 The Character</h3>
-            <p>
-              NEKONOMI is a smug, adorable chart-watcher.
-              She doesn’t chase pumps — pumps chase her.
-            </p>
-          </div>
-          <div class="card">
-            <h3>📈 The Meme</h3>
-            <p>
-              Community language: Diamond Claws, Wet Whiskers, Mega Purr, Hairball Event.
-              Simple. Repeatable. Viral.
-            </p>
-          </div>
-          <div class="card">
-            <h3>🧼 The Rule</h3>
-            <p>
-              No fake utility promises. No nonsense.
-              Just clean branding + nonstop meme output.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
+      </section>
 
-    <section id="token">
-      <div class="wrap">
-        <div class="section-title">
-          <h2>Token</h2>
-          <div class="hint">Fill in details after Pump.fun deploy.</div>
-        </div>
-        <div class="grid3">
-          <div class="card">
-            <h3>Symbol</h3>
-            <p><b style="color:#fff">$NEKO</b> — short, clean, memetic.</p>
-          </div>
-          <div class="card">
-            <h3>Chain</h3>
-            <p><b style="color:#fff">Solana</b> — fast, cheap, meme-friendly.</p>
-          </div>
-          <div class="card">
-            <h3>Supply / Taxes</h3>
-            <p>
-              Pump.fun standard mint.<br/>
-              Tax: <b style="color:#fff">0%</b> (recommended for meme momentum).
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="buy">
-      <div class="wrap">
-        <div class="section-title">
-          <h2>How to buy (Pump.fun)</h2>
-          <div class="hint">Replace links when you launch.</div>
-        </div>
-        <div class="steps">
-          <div class="card">
-            <ol class="ol">
-              <li class="li"><div class="n">1</div><div><b>Get a Solana wallet</b><span>Phantom (mobile/desktop) is the common choice. Fund it with SOL.</span></div></li>
-              <li class="li"><div class="n">2</div><div><b>Open Pump.fun</b><span>Search for <b>$NEKO</b> or paste the Contract Address after launch.</span></div></li>
-              <li class="li"><div class="n">3</div><div><b>Buy small first</b><span>Test with a tiny amount to confirm everything works, then scale.</span></div></li>
-              <li class="li"><div class="n">4</div><div><b>Join the Pride</b><span>Share memes, post updates, keep output high. Momentum = everything.</span></div></li>
-            </ol>
-          </div>
-          <div class="card">
-            <h3 style="margin-top:0">Quick links</h3>
-            <p style="margin:0; color:var(--muted); font-weight:700; line-height:1.6">
-              Update these after launch:
-            </p>
-            <div style="margin-top:12px; display:grid; gap:10px">
-              <a class="btn btn-primary" href="#" onclick="alert('Add your Pump.fun link here after launch.'); return false;">Pump.fun link</a>
-              <a class="btn btn-outline" href="#" onclick="alert('Add your DexScreener link here after launch.'); return false;">DexScreener</a>
-              <a class="btn" href="#" onclick="alert('Add your X/Twitter link here.'); return false;">X / Twitter</a>
-              <a class="btn" href="#" onclick="alert('Add your Telegram link here.'); return false;">Telegram</a>
+      {/* Buy */}
+      <section id="buy" className="border-t border-white/10">
+        <div className="mx-auto max-w-4xl px-6 py-24">
+          <h2 className="text-2xl font-light tracking-tight">How to Buy</h2>
+          <div className="mt-10 space-y-6 text-white/70">
+            <div>
+              <strong className="text-white">1.</strong> Install Phantom Wallet and fund with SOL.
+            </div>
+            <div>
+              <strong className="text-white">2.</strong> Visit Pump.fun and search for {TICKER}.
+            </div>
+            <div>
+              <strong className="text-white">3.</strong> Execute your trade.
             </div>
           </div>
-        </div>
-      </div>
-    </section>
 
-    <section id="memes">
-      <div class="wrap">
-        <div class="section-title">
-          <h2>Meme captions</h2>
-          <div class="hint">Copy + paste. Post daily.</div>
+          <div className="mt-12">
+            <Button href="#">Go to Pump.fun</Button>
+          </div>
         </div>
-        <div class="grid3">
-          <div class="card"><h3>1–4</h3><p>“She predicted this.”<br/>“Liquidity detected.”<br/>“Diamond claws only.”<br/>“Purring intensifies.”</p></div>
-          <div class="card"><h3>5–8</h3><p>“Feed the cat.”<br/>“Wet whiskers sold.”<br/>“Mega purr incoming.”<br/>“Hairball event survived.”</p></div>
-          <div class="card"><h3>9–12</h3><p>“Chart looking tasty.”<br/>“Cats land on green.”<br/>“Too cute to dump.”<br/>“Nine lives. Infinite pumps.”</p></div>
-        </div>
-      </div>
-    </section>
-  </main>
+      </section>
 
-  <footer>
-    <div class="wrap foot">
-      <div>
-        <div class="brand" style="margin-bottom:8px">
-          <div class="pill"><span class="dot"></span><span>NEKONOMI</span></div>
-          <span style="color:var(--muted); font-weight:800; font-size:13px">ネコノミ</span>
+      {/* Footer */}
+      <footer className="border-t border-white/10">
+        <div className="mx-auto max-w-6xl px-6 py-16 text-center text-white/40 text-sm">
+          {TOKEN_NAME} {TOKEN_JP} — Built on Solana.
+          <br />
+          This website is for informational and community purposes only.
         </div>
-        <div class="fine">
-          Disclaimer: This website is for entertainment and community meme purposes only.
-          NEKONOMI ($NEKO) is a meme coin; nothing here is financial advice.
-          Crypto assets are highly risky and volatile. Only risk what you can afford to lose.
-        </div>
-      </div>
-      <div class="social">
-        <a class="btn" href="#" onclick="alert('Add your X/Twitter URL'); return false;">X</a>
-        <a class="btn" href="#" onclick="alert('Add your Telegram URL'); return false;">Telegram</a>
-        <a class="btn" href="#" onclick="alert('Add your Pump.fun URL'); return false;">Pump.fun</a>
-      </div>
+      </footer>
     </div>
-  </footer>
-
-  <div class="toast" id="toast">Copied</div>
-
-  <script>
-    // Copy CA
-    const caEl = document.getElementById('ca');
-    const copyBtn = document.getElementById('copyBtn');
-    const toast = document.getElementById('toast');
-
-    function showToast(msg){
-      toast.textContent = msg;
-      toast.classList.add('show');
-      clearTimeout(window.__t);
-      window.__t = setTimeout(()=> toast.classList.remove('show'), 1200);
-    }
-
-    copyBtn.addEventListener('click', async () => {
-      const text = caEl.textContent.trim();
-      if(!text || text === 'COMING_SOON'){ showToast('CA not set yet'); return; }
-      try{
-        await navigator.clipboard.writeText(text);
-        showToast('Copied');
-      }catch(e){
-        showToast('Copy failed');
-      }
-    });
-
-    // Smooth scroll for internal anchors
-    document.querySelectorAll('a[href^="#"]').forEach(a=>{
-      a.addEventListener('click', (e)=>{
-        const id = a.getAttribute('href');
-        if(!id || id === '#') return;
-        const el = document.querySelector(id);
-        if(el){
-          e.preventDefault();
-          el.scrollIntoView({behavior:'smooth', block:'start'});
-        }
-      });
-    });
-  </script>
-</body>
-</html>
+  );
+}
