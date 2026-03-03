@@ -1,77 +1,367 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>$SLIME — The Cutest Goo on Solana</title>
-  <meta name="description" content="$SLIME — cute pixel goo. Born on pump.fun. Built for vibes." />
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>$SLIME — ABSORB THE DUMP</title>
 
-  <!-- Social preview -->
-  <meta property="og:title" content="$SLIME — The Cutest Goo on Solana" />
-  <meta property="og:description" content="Cute pixel goo. Born on pump.fun. Built for vibes." />
-  <meta property="og:image" content="https://i.ibb.co/zTmZfZvd/Screenshot-20260302-164917-Chat-GPT.jpg" />
-  <meta name="twitter:card" content="summary_large_image" />
+<meta property="og:title" content="$SLIME — ABSORB THE DUMP"/>
+<meta property="og:image" content="https://i.ibb.co/zTmZfZvd/Screenshot-20260302-164917-Chat-GPT.jpg"/>
+<meta name="twitter:card" content="summary_large_image"/>
 
-  <style>
-    body{
-      margin:0;
-      font-family:Arial, sans-serif;
-      background:#0b0f14;
-      color:white;
-      text-align:center;
-    }
-    .container{
-      max-width:900px;
-      margin:auto;
-      padding:40px 20px;
-    }
-    h1{
-      font-size:48px;
-      margin-bottom:10px;
-    }
-    p{
-      color:#b8c0cc;
-      font-size:18px;
-    }
-    .btn{
-      display:inline-block;
-      margin-top:25px;
-      padding:14px 22px;
-      font-size:18px;
-      font-weight:bold;
-      border-radius:12px;
-      background:linear-gradient(135deg,#6bff9b,#49d8ff);
-      color:black;
-      text-decoration:none;
-    }
-    img{
-      margin-top:30px;
-      max-width:100%;
-      image-rendering:pixelated;
-    }
-    footer{
-      margin-top:40px;
-      font-size:12px;
-      color:#777;
-    }
-  </style>
+<style>
+:root{
+  --bg:#06080f;
+  --card:#0e1420;
+  --line:rgba(255,255,255,.08);
+  --text:#f2f6ff;
+  --muted:rgba(255,255,255,.65);
+  --g1:#6bff9b;
+  --g2:#49d8ff;
+  --radius:18px;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:system-ui,Segoe UI,Roboto,Arial;
+  background:
+    radial-gradient(circle at 30% 10%,rgba(73,216,255,.12),transparent 40%),
+    radial-gradient(circle at 80% 20%,rgba(107,255,155,.12),transparent 40%),
+    var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+}
+a{color:inherit}
+.wrap{max-width:1100px;margin:auto;padding:20px}
+
+/* TOP BAR */
+.top{
+  display:flex; justify-content:space-between; align-items:center;
+  gap:10px; margin-bottom:15px;
+}
+.logo{display:flex; align-items:center; gap:8px; font-weight:800; letter-spacing:.4px}
+.dot{
+  width:10px;height:10px;border-radius:50%;
+  background:linear-gradient(135deg,var(--g1),var(--g2));
+  box-shadow:0 0 12px var(--g1);
+}
+.nav a{
+  color:var(--muted);
+  text-decoration:none;
+  margin-left:12px;
+  font-size:14px;
+  padding:8px 10px;
+  border:1px solid transparent;
+  border-radius:999px;
+}
+.nav a:hover{border-color:var(--line); background:rgba(255,255,255,.03)}
+
+/* HERO */
+.hero{
+  background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:20px;
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:18px;
+}
+@media(max-width:900px){.hero{grid-template-columns:1fr}}
+
+h1{
+  margin:0;
+  font-size:50px;
+  background:linear-gradient(90deg,var(--text),var(--g1),var(--g2),var(--text));
+  background-size:200%;
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  animation:shine 6s linear infinite;
+}
+@keyframes shine{
+  0%{background-position:0%}
+  100%{background-position:200%}
+}
+.subtitle{color:var(--muted);margin-top:8px;line-height:1.45}
+
+.actions{display:flex; flex-wrap:wrap; gap:10px; margin-top:14px}
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  padding:12px 16px;
+  border-radius:12px;
+  font-weight:800;
+  background:linear-gradient(135deg,var(--g1),var(--g2));
+  color:black;
+  text-decoration:none;
+  border:0;
+}
+.btn.secondary{
+  background:rgba(255,255,255,.06);
+  color:var(--text);
+  border:1px solid var(--line);
+}
+.btn.secondary:hover{background:rgba(255,255,255,.08)}
+
+.imageBox{
+  display:flex; justify-content:center; align-items:center;
+  position:relative;
+  border-radius:16px;
+  border:1px dashed rgba(255,255,255,.14);
+  background:rgba(0,0,0,.18);
+  padding:14px;
+}
+.imageBox img{
+  max-width:260px;
+  animation:float 3s ease-in-out infinite;
+  image-rendering:pixelated;
+  filter:drop-shadow(0 15px 25px rgba(0,0,0,.5));
+}
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-10px)}
+}
+
+/* LIVE STRIP (fake live price/vol/tx) */
+.liveStrip{
+  margin-top:14px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+@media(max-width:900px){.liveStrip{grid-template-columns:repeat(2,1fr)}}
+.live{
+  background:rgba(0,0,0,.22);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:10px 12px;
+}
+.live .k{font-size:12px; color:var(--muted); display:flex; align-items:center; gap:8px}
+.pulse{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--g1);
+  box-shadow:0 0 14px rgba(107,255,155,.55);
+  animation:pulse 1.3s ease-in-out infinite;
+}
+@keyframes pulse{
+  0%,100%{transform:scale(1); opacity:.7}
+  50%{transform:scale(1.35); opacity:1}
+}
+.live .v{margin-top:6px; font-weight:900; font-size:18px; letter-spacing:.2px}
+
+/* STATS BAR */
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  margin-top:15px;
+}
+@media(max-width:800px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:12px;
+  text-align:center;
+}
+.stat h3{margin:0;font-size:13px;color:var(--muted); font-weight:700}
+.stat p{margin:6px 0 0;font-weight:900}
+
+/* MEME GRID */
+.grid{
+  margin-top:15px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+@media(max-width:900px){.grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:15px;
+  font-size:14px;
+}
+.card h3{margin:0 0 6px}
+
+/* SCROLL TICKER */
+.ticker{
+  margin-top:15px;
+  white-space:nowrap;
+  overflow:hidden;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  padding:10px 0;
+  color:var(--muted);
+}
+.ticker span{
+  display:inline-block;
+  padding-left:100%;
+  animation:scroll 16s linear infinite;
+}
+@keyframes scroll{
+  0%{transform:translateX(0)}
+  100%{transform:translateX(-100%)}
+}
+
+footer{
+  margin-top:20px;
+  font-size:12px;
+  color:var(--muted);
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.small{font-size:12px; color:var(--muted); margin-top:10px}
+</style>
 </head>
 
 <body>
-  <div class="container">
-    <h1>$SLIME</h1>
-    <p>The tiny green blob that survived the bear market.<br>
-    No roadmap. No promises. Just vibes.</p>
+<div class="wrap">
 
-    <a class="btn" href="https://pump.fun" target="_blank">
-      🚀 Buy on pump.fun
-    </a>
-
-    <img src="https://i.ibb.co/zTmZfZvd/Screenshot-20260302-164917-Chat-GPT.jpg" alt="SLIME mascot">
-
-    <footer>
-      © 2026 $SLIME — Born on pump.fun
-    </footer>
+  <div class="top">
+    <div class="logo"><span class="dot"></span>$SLIME</div>
+    <div class="nav">
+      <a href="https://pump.fun" target="_blank" rel="noopener">pump.fun</a>
+      <a href="https://x.com" target="_blank" rel="noopener">X</a>
+      <a href="https://t.me" target="_blank" rel="noopener">Telegram</a>
+    </div>
   </div>
+
+  <div class="hero">
+    <div>
+      <h1>ABSORB THE DUMP</h1>
+      <div class="subtitle">
+        The tiny blob that appears when charts go red.<br>
+        No roadmap. No promises. Just vibes.
+      </div>
+
+      <div class="actions">
+        <a class="btn" href="https://pump.fun" target="_blank" rel="noopener">🚀 Buy on pump.fun</a>
+        <a class="btn secondary" href="https://pump.fun" target="_blank" rel="noopener">🧪 Launch Page</a>
+      </div>
+
+      <!-- Fake live price/volume strip -->
+      <div class="liveStrip">
+        <div class="live">
+          <div class="k"><span class="pulse"></span>LIVE PRICE</div>
+          <div class="v" id="livePrice">$0.000000</div>
+        </div>
+        <div class="live">
+          <div class="k"><span class="pulse"></span>24H VOL</div>
+          <div class="v" id="liveVol">$0</div>
+        </div>
+        <div class="live">
+          <div class="k"><span class="pulse"></span>TX / MIN</div>
+          <div class="v" id="liveTx">0</div>
+        </div>
+        <div class="live">
+          <div class="k"><span class="pulse"></span>VIBE METER</div>
+          <div class="v" id="liveVibe">MAX</div>
+        </div>
+      </div>
+
+      <div class="small">Visual only. For real numbers, link Dexscreener later.</div>
+    </div>
+
+    <div class="imageBox">
+      <img src="https://i.ibb.co/zTmZfZvd/Screenshot-20260302-164917-Chat-GPT.jpg" alt="Slime">
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><h3>Ticker</h3><p>$SLIME</p></div>
+    <div class="stat"><h3>Chain</h3><p>Solana</p></div>
+    <div class="stat"><h3>Utility</h3><p>Memes</p></div>
+    <div class="stat"><h3>Energy</h3><p>100% Goo</p></div>
+  </div>
+
+  <div class="grid">
+    <div class="card"><h3>Origin</h3>A green pixel refused to disappear from a dead chart. It evolved.</div>
+    <div class="card"><h3>When Red</h3>It eats.</div>
+    <div class="card"><h3>When Green</h3>It smiles.</div>
+    <div class="card"><h3>When Sideways</h3>It sleeps.</div>
+    <div class="card"><h3>Community</h3>Reply to every panic post with the slime.</div>
+    <div class="card"><h3>Mission</h3>Become the most recognizable blob on Solana.</div>
+  </div>
+
+  <div class="ticker">
+    <span id="tickerText">
+      $SLIME • ABSORB THE DUMP • FEED THE GOO • LOW IQ HIGH VISCOSITY • $SLIME • ABSORB THE DUMP • FEED THE GOO •
+    </span>
+  </div>
+
+  <footer>
+    <div>© <span id="y"></span> $SLIME — Born on pump.fun</div>
+    <div><a href="https://pump.fun" target="_blank" rel="noopener" style="color:var(--muted)">Launch on pump.fun</a></div>
+  </footer>
+
+</div>
+
+<script>
+  document.getElementById("y").textContent = new Date().getFullYear();
+
+  // Fake "live" numbers (visual only)
+  // Starts at a tiny price, wiggles around, and updates volume + tx/min.
+  let price = 0.00000042;
+  let vol = 18250;
+  let tx = 19;
+
+  function fmtMoney(n){
+    if(n >= 1e9) return "$" + (n/1e9).toFixed(2) + "B";
+    if(n >= 1e6) return "$" + (n/1e6).toFixed(2) + "M";
+    if(n >= 1e3) return "$" + (n/1e3).toFixed(1) + "K";
+    return "$" + Math.floor(n).toString();
+  }
+
+  function fmtPrice(p){
+    // show 6 decimals minimum, more if tiny
+    if(p < 0.000001) return "$" + p.toFixed(8);
+    return "$" + p.toFixed(6);
+  }
+
+  function vibeLabel(){
+    const vibes = ["MAX", "INSANE", "GOO'D", "SOAKED", "FERAL", "SLIMY"];
+    return vibes[Math.floor(Math.random()*vibes.length)];
+  }
+
+  function tick(){
+    // price wiggle
+    const wiggle = (Math.random() - 0.48) * 0.00000008; // tiny moves
+    price = Math.max(0.00000001, price + wiggle);
+
+    // volume + tx drift
+    vol = Math.max(0, vol + Math.floor((Math.random()-0.35) * 900));
+    tx  = Math.max(1, tx  + Math.floor((Math.random()-0.45) * 6));
+
+    document.getElementById("livePrice").textContent = fmtPrice(price);
+    document.getElementById("liveVol").textContent = fmtMoney(vol);
+    document.getElementById("liveTx").textContent = tx.toString();
+
+    // occasional vibe swap
+    if(Math.random() < 0.35){
+      document.getElementById("liveVibe").textContent = vibeLabel();
+    }
+  }
+
+  tick();
+  setInterval(tick, 1200);
+
+  // Make ticker feel "alive" by swapping a phrase sometimes
+  const ticker = document.getElementById("tickerText");
+  const phrases = [
+    "$SLIME • ABSORB THE DUMP •",
+    "FEED THE GOO •",
+    "LOW IQ • HIGH VISCOSITY •",
+    "NO THOUGHTS • JUST GOO •",
+    "WE LIKE THE BLOB •"
+  ];
+  setInterval(() => {
+    const a = phrases[Math.floor(Math.random()*phrases.length)];
+    const b = phrases[Math.floor(Math.random()*phrases.length)];
+    ticker.textContent = `${a} ${b} ${a} ${b} ${a} ${b}`;
+  }, 5500);
+</script>
 </body>
 </html>
