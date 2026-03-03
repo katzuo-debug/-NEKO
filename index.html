@@ -1,367 +1,725 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>$SLIME — ABSORB THE DUMP</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>$NEKO — ネコノミ</title>
+  <meta name="description" content="$NEKO ネコノミ — She reads charts, hunts liquidity, and purrs through the market. (づ｡◕‿‿◕｡)づ" />
 
-<meta property="og:title" content="$SLIME — ABSORB THE DUMP"/>
-<meta property="og:image" content="https://i.ibb.co/zTmZfZvd/Screenshot-20260302-164917-Chat-GPT.jpg"/>
-<meta name="twitter:card" content="summary_large_image"/>
+  <style>
+    :root{
+      --bg1:#ffffff;
+      --bg2:#ffe8ff;
+      --ink:#111;
+      --muted:#5a5a5a;
+      --pink:#ff3ecb;
+      --purple:#7a4dff;
+      --cyan:#27d8ff;
+      --card:#fff;
+      --border: 1px solid rgba(0,0,0,.10);
+      --shadow: 0 14px 55px rgba(0,0,0,.10);
+      --shadow2: 0 22px 90px rgba(255,62,203,.18);
+      --r: 22px;
+    }
 
-<style>
-:root{
-  --bg:#06080f;
-  --card:#0e1420;
-  --line:rgba(255,255,255,.08);
-  --text:#f2f6ff;
-  --muted:rgba(255,255,255,.65);
-  --g1:#6bff9b;
-  --g2:#49d8ff;
-  --radius:18px;
-}
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:system-ui,Segoe UI,Roboto,Arial;
-  background:
-    radial-gradient(circle at 30% 10%,rgba(73,216,255,.12),transparent 40%),
-    radial-gradient(circle at 80% 20%,rgba(107,255,155,.12),transparent 40%),
-    var(--bg);
-  color:var(--text);
-  overflow-x:hidden;
-}
-a{color:inherit}
-.wrap{max-width:1100px;margin:auto;padding:20px}
+    *{box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--ink);
+      background: linear-gradient(180deg,var(--bg1),var(--bg2));
+      overflow-x:hidden;
+      text-align:center;
+    }
 
-/* TOP BAR */
-.top{
-  display:flex; justify-content:space-between; align-items:center;
-  gap:10px; margin-bottom:15px;
-}
-.logo{display:flex; align-items:center; gap:8px; font-weight:800; letter-spacing:.4px}
-.dot{
-  width:10px;height:10px;border-radius:50%;
-  background:linear-gradient(135deg,var(--g1),var(--g2));
-  box-shadow:0 0 12px var(--g1);
-}
-.nav a{
-  color:var(--muted);
-  text-decoration:none;
-  margin-left:12px;
-  font-size:14px;
-  padding:8px 10px;
-  border:1px solid transparent;
-  border-radius:999px;
-}
-.nav a:hover{border-color:var(--line); background:rgba(255,255,255,.03)}
+    /* cute dot texture */
+    body:before{
+      content:"";
+      position:fixed; inset:0;
+      background: radial-gradient(rgba(0,0,0,.05) 1px, transparent 1px);
+      background-size: 18px 18px;
+      opacity:.35;
+      pointer-events:none;
+      z-index:0;
+    }
 
-/* HERO */
-.hero{
-  background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-  padding:20px;
-  display:grid;
-  grid-template-columns:1.2fr .8fr;
-  gap:18px;
-}
-@media(max-width:900px){.hero{grid-template-columns:1fr}}
+    /* floating emojis */
+    .floaties{ position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+    .floater{
+      position:absolute;
+      font-size:22px;
+      opacity:.75;
+      filter: drop-shadow(0 10px 12px rgba(0,0,0,.10));
+      animation: rise linear infinite;
+    }
+    @keyframes rise{
+      0%{ transform: translateY(110vh) rotate(-10deg); }
+      100%{ transform: translateY(-25vh) rotate(10deg); }
+    }
 
-h1{
-  margin:0;
-  font-size:50px;
-  background:linear-gradient(90deg,var(--text),var(--g1),var(--g2),var(--text));
-  background-size:200%;
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-  animation:shine 6s linear infinite;
-}
-@keyframes shine{
-  0%{background-position:0%}
-  100%{background-position:200%}
-}
-.subtitle{color:var(--muted);margin-top:8px;line-height:1.45}
+    header{
+      position:sticky; top:0; z-index:50;
+      background:rgba(255,255,255,.72);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid rgba(0,0,0,.08);
+    }
+    .nav{
+      max-width:1100px; margin:0 auto;
+      padding:14px 16px;
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+    }
+    .brand{display:flex; align-items:center; gap:10px; font-weight:950;}
+    .badge{
+      font-size:12px; font-weight:950;
+      padding:6px 10px; border-radius:999px;
+      background:#fff; border:var(--border);
+      box-shadow: 0 10px 26px rgba(0,0,0,.06);
+    }
+    .links{display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;}
+    .links a{
+      text-decoration:none; color:var(--ink);
+      font-weight:900; font-size:13px;
+      padding:10px 12px; border-radius:999px;
+      background:#fff; border:var(--border);
+      box-shadow: 0 8px 20px rgba(0,0,0,.06);
+      transition:.18s transform;
+    }
+    .links a:hover{ transform: translateY(-2px); }
 
-.actions{display:flex; flex-wrap:wrap; gap:10px; margin-top:14px}
-.btn{
-  display:inline-flex; align-items:center; justify-content:center; gap:8px;
-  padding:12px 16px;
-  border-radius:12px;
-  font-weight:800;
-  background:linear-gradient(135deg,var(--g1),var(--g2));
-  color:black;
-  text-decoration:none;
-  border:0;
-}
-.btn.secondary{
-  background:rgba(255,255,255,.06);
-  color:var(--text);
-  border:1px solid var(--line);
-}
-.btn.secondary:hover{background:rgba(255,255,255,.08)}
+    .wrap{ position:relative; z-index:1; max-width:1100px; margin:0 auto; padding: 26px 16px 80px; }
 
-.imageBox{
-  display:flex; justify-content:center; align-items:center;
-  position:relative;
-  border-radius:16px;
-  border:1px dashed rgba(255,255,255,.14);
-  background:rgba(0,0,0,.18);
-  padding:14px;
-}
-.imageBox img{
-  max-width:260px;
-  animation:float 3s ease-in-out infinite;
-  image-rendering:pixelated;
-  filter:drop-shadow(0 15px 25px rgba(0,0,0,.5));
-}
-@keyframes float{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-10px)}
-}
+    .hero{
+      display:grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap:16px;
+      align-items:stretch;
+      margin-top:18px;
+    }
+    @media (max-width: 900px){
+      .hero{ grid-template-columns:1fr; }
+    }
 
-/* LIVE STRIP (fake live price/vol/tx) */
-.liveStrip{
-  margin-top:14px;
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:10px;
-}
-@media(max-width:900px){.liveStrip{grid-template-columns:repeat(2,1fr)}}
-.live{
-  background:rgba(0,0,0,.22);
-  border:1px solid var(--line);
-  border-radius:14px;
-  padding:10px 12px;
-}
-.live .k{font-size:12px; color:var(--muted); display:flex; align-items:center; gap:8px}
-.pulse{
-  width:8px;height:8px;border-radius:50%;
-  background:var(--g1);
-  box-shadow:0 0 14px rgba(107,255,155,.55);
-  animation:pulse 1.3s ease-in-out infinite;
-}
-@keyframes pulse{
-  0%,100%{transform:scale(1); opacity:.7}
-  50%{transform:scale(1.35); opacity:1}
-}
-.live .v{margin-top:6px; font-weight:900; font-size:18px; letter-spacing:.2px}
+    .card{
+      background:var(--card);
+      border:var(--border);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
 
-/* STATS BAR */
-.stats{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:10px;
-  margin-top:15px;
-}
-@media(max-width:800px){.stats{grid-template-columns:repeat(2,1fr)}}
-.stat{
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-  padding:12px;
-  text-align:center;
-}
-.stat h3{margin:0;font-size:13px;color:var(--muted); font-weight:700}
-.stat p{margin:6px 0 0;font-weight:900}
+    .heroMain{
+      padding:22px;
+      border:2px solid rgba(255,62,203,.22);
+      box-shadow: var(--shadow2);
+      position:relative;
+      isolation:isolate;
+      text-align:left;
+    }
+    .heroMain:before{
+      content:"";
+      position:absolute; inset:-70px -70px auto -70px;
+      height:180px;
+      background:
+        radial-gradient(circle at 25% 45%, rgba(255,62,203,.28), transparent 60%),
+        radial-gradient(circle at 75% 45%, rgba(39,216,255,.22), transparent 60%),
+        radial-gradient(circle at 55% 95%, rgba(122,77,255,.16), transparent 65%);
+      z-index:-1;
+      filter: blur(1px);
+    }
 
-/* MEME GRID */
-.grid{
-  margin-top:15px;
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
-}
-@media(max-width:900px){.grid{grid-template-columns:1fr 1fr}}
-@media(max-width:600px){.grid{grid-template-columns:1fr}}
-.card{
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-  padding:15px;
-  font-size:14px;
-}
-.card h3{margin:0 0 6px}
+    .kicker{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px; }
+    .pill{
+      padding:8px 12px; border-radius:999px;
+      border:var(--border); background:#fff;
+      font-weight:950; font-size:12px;
+      box-shadow: 0 12px 28px rgba(0,0,0,.06);
+    }
+    .pill.hot{
+      border-color: rgba(255,62,203,.42);
+      box-shadow: 0 16px 36px rgba(255,62,203,.18);
+    }
 
-/* SCROLL TICKER */
-.ticker{
-  margin-top:15px;
-  white-space:nowrap;
-  overflow:hidden;
-  border-top:1px solid var(--line);
-  border-bottom:1px solid var(--line);
-  padding:10px 0;
-  color:var(--muted);
-}
-.ticker span{
-  display:inline-block;
-  padding-left:100%;
-  animation:scroll 16s linear infinite;
-}
-@keyframes scroll{
-  0%{transform:translateX(0)}
-  100%{transform:translateX(-100%)}
-}
+    .titleRow{ display:flex; align-items:flex-end; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+    h1{ margin:0; font-size:58px; line-height:1.0; letter-spacing:-.9px; }
+    .jp{ margin:8px 0 0; font-size:22px; font-weight:950; opacity:.95; }
 
-footer{
-  margin-top:20px;
-  font-size:12px;
-  color:var(--muted);
-  display:flex;
-  justify-content:space-between;
-  flex-wrap:wrap;
-  gap:10px;
-}
-.small{font-size:12px; color:var(--muted); margin-top:10px}
-</style>
+    .identity{
+      margin:14px 0 12px;
+      font-size:18px; font-weight:850;
+    }
+    .identityBox{
+      display:inline-block;
+      padding:10px 12px;
+      border-radius:16px;
+      border:var(--border);
+      background:#fff;
+      box-shadow: 0 12px 26px rgba(0,0,0,.06);
+    }
+
+    .mascotWrap{
+      margin-top:16px;
+      display:flex; gap:14px; align-items:center; flex-wrap:wrap;
+    }
+    .mascot{
+      width:270px; max-width:70vw;
+      border-radius:22px;
+      border:2px solid rgba(0,0,0,.08);
+      box-shadow: 0 18px 70px rgba(0,0,0,.18);
+      animation: floatcat 6s ease-in-out infinite;
+      background:#fff;
+    }
+    @keyframes floatcat{
+      0%{ transform: translateY(0px); }
+      50%{ transform: translateY(-14px); }
+      100%{ transform: translateY(0px); }
+    }
+    .watch{
+      font-weight:950;
+      color:#222;
+      background: rgba(255,62,203,.08);
+      border:2px dashed rgba(255,62,203,.35);
+      padding:12px 14px;
+      border-radius:16px;
+      line-height:1.35;
+    }
+
+    .ctaRow{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin-top:16px; }
+    .buy{
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding:18px 24px;
+      border-radius:18px;
+      text-decoration:none;
+      color:#fff;
+      font-weight:1000;
+      font-size:20px;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      border: 2px solid rgba(255,255,255,.35);
+      box-shadow: 0 18px 70px rgba(255,62,203,.26);
+      transition:.18s transform, .18s filter;
+      position:relative;
+      overflow:hidden;
+    }
+    .buy:before{
+      content:"";
+      position:absolute; inset:-40%;
+      background: conic-gradient(from 180deg, rgba(255,255,255,0), rgba(255,255,255,.35), rgba(255,255,255,0));
+      animation: shine 2.8s linear infinite;
+      opacity:.55;
+    }
+    @keyframes shine{ 0%{transform:rotate(0deg);} 100%{transform:rotate(360deg);} }
+    .buy:hover{ transform: translateY(-2px) scale(1.02); filter:saturate(1.1); }
+
+    .btn{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:14px 16px;
+      border-radius:16px;
+      border:var(--border);
+      background:#fff;
+      font-weight:950;
+      cursor:pointer;
+      box-shadow: 0 12px 26px rgba(0,0,0,.06);
+      transition:.18s transform;
+    }
+    .btn:hover{ transform: translateY(-2px); }
+
+    .heroSide{ padding:16px; display:flex; flex-direction:column; gap:12px; text-align:left; }
+    .stat{
+      padding:14px;
+      border-radius:18px;
+      border:var(--border);
+      background:#fff;
+      box-shadow: 0 10px 22px rgba(0,0,0,.05);
+    }
+    .stat b{ display:block; font-size:12px; color:var(--muted); letter-spacing:.2px; }
+    .stat code{
+      display:block; margin-top:6px;
+      font-size:12px;
+      word-break:break-all;
+      padding:10px;
+      border-radius:14px;
+      border:var(--border);
+      background: rgba(0,0,0,.03);
+    }
+    .note{
+      margin-top:auto;
+      padding:12px 14px;
+      border-radius:18px;
+      border:var(--border);
+      background: rgba(39,216,255,.08);
+      color:#222;
+      font-weight:850;
+      line-height:1.4;
+      font-size:13px;
+    }
+
+    .sectionTitle{
+      margin:44px 0 12px;
+      font-size:30px;
+      font-weight:1000;
+      display:flex; align-items:center; justify-content:center; gap:10px;
+    }
+    .sub{
+      margin:0 auto 18px;
+      max-width:860px;
+      color:var(--muted);
+      font-weight:800;
+      line-height:1.55;
+    }
+
+    .levelUp{
+      margin:24px auto;
+      max-width:950px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:14px;
+      font-weight:1000;
+      text-transform:uppercase;
+      letter-spacing:.5px;
+    }
+    .levelUp .bar{
+      height:3px; flex:1; border-radius:999px;
+      background: linear-gradient(90deg, transparent, rgba(0,0,0,.18), transparent);
+    }
+    .levelUp .tag{
+      padding:10px 14px;
+      border-radius:999px;
+      border:var(--border);
+      background:#fff;
+      box-shadow: 0 12px 26px rgba(0,0,0,.06);
+      display:flex; align-items:center; gap:8px;
+    }
+    .wiggle{ display:inline-block; animation: wiggle 1.6s ease-in-out infinite; transform-origin:50% 80%; }
+    @keyframes wiggle{ 0%,100%{transform:rotate(-4deg);} 50%{transform:rotate(4deg);} }
+
+    .phases{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:14px;
+    }
+    @media (max-width: 860px){
+      .phases{ grid-template-columns:1fr; }
+    }
+    .phaseCard{
+      text-align:left;
+      padding:18px;
+      border-radius: var(--r);
+      border:2px solid rgba(0,0,0,.08);
+      background:#fff;
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:hidden;
+      transition:.18s transform, .18s box-shadow;
+    }
+    .phaseCard:hover{ transform: translateY(-3px); box-shadow: 0 18px 60px rgba(0,0,0,.12); }
+    .phaseCard:before{
+      content:"";
+      position:absolute; inset:-70px -70px auto -70px;
+      height:160px;
+      background:
+        radial-gradient(circle at 20% 40%, rgba(255,62,203,.22), transparent 60%),
+        radial-gradient(circle at 70% 50%, rgba(39,216,255,.18), transparent 60%),
+        radial-gradient(circle at 55% 90%, rgba(122,77,255,.14), transparent 65%);
+      z-index:0;
+    }
+    .phaseTop{ position:relative; z-index:1; display:flex; justify-content:space-between; gap:12px; align-items:center; }
+    .phaseNum{
+      font-size:12px; font-weight:1000;
+      padding:8px 10px;
+      border-radius:999px;
+      border:var(--border);
+      background:#fff;
+      box-shadow: 0 12px 24px rgba(0,0,0,.06);
+      display:inline-block;
+      margin-bottom:8px;
+    }
+    .phaseTitle{ margin:0; font-size:18px; font-weight:1000; }
+    .phaseEmoji{ font-size:24px; filter: drop-shadow(0 10px 12px rgba(0,0,0,.10)); }
+    .phaseBody{
+      position:relative; z-index:1;
+      margin:10px 0 0;
+      font-weight:850;
+      line-height:1.55;
+    }
+    .identityMini{
+      position:relative; z-index:1;
+      margin-top:12px;
+      padding:12px 12px;
+      border-radius:16px;
+      border:2px dashed rgba(255,62,203,.35);
+      background: rgba(255,62,203,.06);
+      font-weight:1000;
+      line-height:1.45;
+    }
+
+    .loreBox{
+      max-width:900px;
+      margin:0 auto;
+      padding:18px;
+      text-align:left;
+      border-radius: var(--r);
+      border:var(--border);
+      background:#fff;
+      box-shadow: var(--shadow);
+      font-weight:850;
+      line-height:1.7;
+    }
+
+    .grid3{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+    }
+    @media (max-width: 900px){
+      .grid3{ grid-template-columns:1fr; }
+    }
+    .memeCard{
+      padding:16px;
+      border-radius: var(--r);
+      border:var(--border);
+      background:#fff;
+      box-shadow: var(--shadow);
+      text-align:left;
+      font-weight:850;
+      line-height:1.5;
+    }
+    .memeImg{
+      height:170px;
+      border-radius:18px;
+      border:2px solid rgba(0,0,0,.08);
+      background:
+        radial-gradient(circle at 20% 25%, rgba(255,62,203,.20), transparent 55%),
+        radial-gradient(circle at 70% 40%, rgba(39,216,255,.18), transparent 60%),
+        linear-gradient(135deg, rgba(0,0,0,.05), rgba(0,0,0,.01));
+      display:flex; align-items:center; justify-content:center;
+      font-size:54px;
+      margin-bottom:12px;
+      position:relative; overflow:hidden;
+    }
+    .memeImg:after{
+      content:"NEKO IS WATCHING";
+      position:absolute;
+      bottom:10px; left:10px;
+      font-size:12px;
+      font-weight:1000;
+      opacity:.8;
+      padding:6px 10px;
+      border-radius:999px;
+      border:var(--border);
+      background:rgba(255,255,255,.85);
+    }
+
+    footer{
+      margin-top:46px;
+      padding:22px 16px 44px;
+      color:var(--muted);
+      font-weight:850;
+    }
+
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:18px;
+      transform:translateX(-50%);
+      background:#111;
+      color:#fff;
+      padding:12px 14px;
+      border-radius:999px;
+      font-weight:1000;
+      opacity:0;
+      pointer-events:none;
+      transition:.22s opacity, .22s transform;
+      z-index:999;
+    }
+    .toast.show{
+      opacity:1;
+      transform:translateX(-50%) translateY(-4px);
+    }
+  </style>
 </head>
 
 <body>
-<div class="wrap">
+  <div class="floaties" aria-hidden="true">
+    <div class="floater" style="left:8%;  animation-duration:10s; animation-delay:-2s;">🐱</div>
+    <div class="floater" style="left:22%; animation-duration:13s; animation-delay:-6s;">✨</div>
+    <div class="floater" style="left:38%; animation-duration:9s;  animation-delay:-4s;">🐾</div>
+    <div class="floater" style="left:55%; animation-duration:12s; animation-delay:-9s;">🪙</div>
+    <div class="floater" style="left:72%; animation-duration:11s; animation-delay:-3s;">📈</div>
+    <div class="floater" style="left:86%; animation-duration:14s; animation-delay:-7s;">💎</div>
+  </div>
 
-  <div class="top">
-    <div class="logo"><span class="dot"></span>$SLIME</div>
+  <header>
     <div class="nav">
-      <a href="https://pump.fun" target="_blank" rel="noopener">pump.fun</a>
-      <a href="https://x.com" target="_blank" rel="noopener">X</a>
-      <a href="https://t.me" target="_blank" rel="noopener">Telegram</a>
+      <div class="brand">
+        <div style="font-size:18px;">🐱</div>
+        <div>$NEKO <span class="badge">ネコノミ</span></div>
+      </div>
+      <div class="links">
+        <a href="#buy">Buy</a>
+        <a href="#evolve">Phases</a>
+        <a href="#lore">Lore</a>
+        <a href="#memes">Memes</a>
+      </div>
     </div>
-  </div>
+  </header>
 
-  <div class="hero">
-    <div>
-      <h1>ABSORB THE DUMP</h1>
-      <div class="subtitle">
-        The tiny blob that appears when charts go red.<br>
-        No roadmap. No promises. Just vibes.
+  <main class="wrap">
+    <section class="hero" id="buy">
+      <div class="card heroMain">
+        <div class="kicker">
+          <div class="pill hot">NEKO MODE: ON</div>
+          <div class="pill">CHARTS ✅</div>
+          <div class="pill">LIQUIDITY ✅</div>
+          <div class="pill">PURR ✅</div>
+        </div>
+
+        <div class="titleRow">
+          <div>
+            <h1>$NEKO</h1>
+            <div class="jp">ネコノミ</div>
+          </div>
+        </div>
+
+        <div class="identity">
+          <span class="identityBox">
+            She reads charts, hunts liquidity, and purrs through the market. <b>(づ｡◕‿‿◕｡)づ</b>
+          </span>
+        </div>
+
+        <div class="mascotWrap">
+          <img class="mascot" src="assets/neko.png" alt="Nekonomi mascot" />
+          <div class="watch">
+            👀 NEKO is watching the chart…<br/>
+            behave, jeets.
+          </div>
+        </div>
+
+        <div class="ctaRow">
+          <a class="buy" href="https://pump.fun/coin/4TUr5tUwW1kvA8BNgoP9MtGayAuAydQqwFtofnE6pump" target="_blank" rel="noopener">
+            <span class="wiggle">🐱</span> BUY $NEKO <span style="opacity:.9;">→</span>
+          </a>
+
+          <button class="btn" id="copyBtn" type="button">📋 Copy Token</button>
+          <a class="btn" href="#evolve" style="text-decoration:none; color:inherit;">⬆️ See Evolution</a>
+        </div>
+
+        <div style="margin-top:14px; color:var(--muted); font-weight:900;">
+          ⚠️ Warning: staring at NEKO charts may cause sudden buying.
+        </div>
       </div>
 
-      <div class="actions">
-        <a class="btn" href="https://pump.fun" target="_blank" rel="noopener">🚀 Buy on pump.fun</a>
-        <a class="btn secondary" href="https://pump.fun" target="_blank" rel="noopener">🧪 Launch Page</a>
-      </div>
+      <aside class="card heroSide">
+        <div class="stat">
+          <b>Token address</b>
+          <code id="tokenText">4TUr5tUwW1kvA8BNgoP9MtGayAuAydQqwFtofnE6pump</code>
+        </div>
 
-      <!-- Fake live price/volume strip -->
-      <div class="liveStrip">
-        <div class="live">
-          <div class="k"><span class="pulse"></span>LIVE PRICE</div>
-          <div class="v" id="livePrice">$0.000000</div>
+        <div class="stat">
+          <b>Identity</b>
+          <code>She reads charts, hunts liquidity, and purrs through the market. (づ｡◕‿‿◕｡)づ</code>
         </div>
-        <div class="live">
-          <div class="k"><span class="pulse"></span>24H VOL</div>
-          <div class="v" id="liveVol">$0</div>
-        </div>
-        <div class="live">
-          <div class="k"><span class="pulse"></span>TX / MIN</div>
-          <div class="v" id="liveTx">0</div>
-        </div>
-        <div class="live">
-          <div class="k"><span class="pulse"></span>VIBE METER</div>
-          <div class="v" id="liveVibe">MAX</div>
-        </div>
-      </div>
 
-      <div class="small"></div>
+        <div class="note">
+          NEKO doesn’t panic. NEKO reads.
+          NEKO hunts.
+          NEKO purrs through the candles.
+        </div>
+      </aside>
+    </section>
+
+    <h2 class="sectionTitle" id="evolve">⬆️ NEKO EVOLUTION (Phase 1–5)</h2>
+    <p class="sub">
+      ネコノミ evolves like a character, not a project. The chart is the playground — liquidity is the toy.
+    </p>
+
+    <div class="levelUp">
+      <div class="bar"></div>
+      <div class="tag"><span class="wiggle">🐾</span> THE CAT EVOLVES</div>
+      <div class="bar"></div>
     </div>
 
-    <div class="imageBox">
-      <img src="https://i.ibb.co/zTmZfZvd/Screenshot-20260302-164917-Chat-GPT.jpg" alt="Slime">
+    <section class="phases">
+      <div class="phaseCard">
+        <div class="phaseTop">
+          <div>
+            <div class="phaseNum">PHASE 1</div>
+            <h3 class="phaseTitle">THE CAT AWAKENS</h3>
+          </div>
+          <div class="phaseEmoji">🐱✨</div>
+        </div>
+        <p class="phaseBody">
+          ネコノミ wakes up inside the blockchain and opens the charts like it’s morning coffee.
+          The market is noisy… but the cat understands.
+        </p>
+        <div class="identityMini">
+          She reads charts, hunts liquidity, and purrs through the market. (づ｡◕‿‿◕｡)づ
+        </div>
+      </div>
+
+      <div class="phaseCard">
+        <div class="phaseTop">
+          <div>
+            <div class="phaseNum">PHASE 2</div>
+            <h3 class="phaseTitle">LIQUIDITY HUNTER</h3>
+          </div>
+          <div class="phaseEmoji">🎯📈</div>
+        </div>
+        <p class="phaseBody">
+          Liquidity appears. Pupils dilate. Tail flicks.
+          Then: pounce. The hunt becomes a daily ritual.
+        </p>
+        <div class="identityMini">
+          She reads charts, hunts liquidity, and purrs through the market. (づ｡◕‿‿◕｡)づ
+        </div>
+      </div>
+
+      <div class="phaseCard">
+        <div class="phaseTop">
+          <div>
+            <div class="phaseNum">PHASE 3</div>
+            <h3 class="phaseTitle">MEME DOMINATION</h3>
+          </div>
+          <div class="phaseEmoji">👑🐾</div>
+        </div>
+        <p class="phaseBody">
+          The internet recognizes the character.
+          People don’t “buy a token” — they “join the hunt.”
+        </p>
+        <div class="identityMini">
+          She reads charts, hunts liquidity, and purrs through the market. (づ｡◕‿‿◕｡)づ
+        </div>
+      </div>
+
+      <div class="phaseCard">
+        <div class="phaseTop">
+          <div>
+            <div class="phaseNum">PHASE 4</div>
+            <h3 class="phaseTitle">CULT OF NEKO</h3>
+          </div>
+          <div class="phaseEmoji">🕯️🐱</div>
+        </div>
+        <p class="phaseBody">
+          This is no longer a coin. This is a movement.
+          The Neko Order forms — raids, rituals, and purr-pressure.
+        </p>
+        <div class="identityMini">
+          She reads charts, hunts liquidity, and purrs through the market. (づ｡◕‿‿◕｡)づ
+        </div>
+      </div>
+
+      <div class="phaseCard" style="grid-column:1 / -1;">
+        <div class="phaseTop">
+          <div>
+            <div class="phaseNum">PHASE 5</div>
+            <h3 class="phaseTitle">FINAL FORM: THE MARKET PURRS</h3>
+          </div>
+          <div class="phaseEmoji">🌌🐱💎</div>
+        </div>
+        <p class="phaseBody">
+          ネコノミ reaches her final evolution.
+          Liquidity becomes a toy. Candles become a lullaby.
+          Everyone hears the same sound: <b>purr purr purr</b>.
+        </p>
+        <div class="identityMini">
+          She reads charts, hunts liquidity, and purrs through the market. (づ｡◕‿‿◕｡)づ
+        </div>
+      </div>
+    </section>
+
+    <h2 class="sectionTitle" id="lore">📜 Lore</h2>
+    <div class="loreBox">
+      <b>ネコノミ (Nekonomi)</b> is a chart-reading market cat.<br/>
+      She doesn’t chase pumps — she hunts liquidity.<br/>
+      When the candles shake, she purrs.<br/><br/>
+      <b>She reads charts, hunts liquidity, and purrs through the market. (づ｡◕‿‿◕｡)づ</b>
     </div>
-  </div>
 
-  <div class="stats">
-    <div class="stat"><h3>Ticker</h3><p>$SLIME</p></div>
-    <div class="stat"><h3>Chain</h3><p>Solana</p></div>
-    <div class="stat"><h3>Utility</h3><p>Memes</p></div>
-    <div class="stat"><h3>Energy</h3><p>100% Goo</p></div>
-  </div>
+    <h2 class="sectionTitle" id="memes">🎴 Memes</h2>
+    <p class="sub">
+      NEKO content is simple: chart + cat + confidence. Keep it cute. Keep it savage.
+    </p>
 
-  <div class="grid">
-    <div class="card"><h3>Origin</h3>A green pixel refused to disappear from a dead chart. It evolved.</div>
-    <div class="card"><h3>When Red</h3>It eats.</div>
-    <div class="card"><h3>When Green</h3>It smiles.</div>
-    <div class="card"><h3>When Sideways</h3>It sleeps.</div>
-    <div class="card"><h3>Community</h3>Reply to every panic post with the slime.</div>
-    <div class="card"><h3>Mission</h3>Become the most recognizable blob on Solana.</div>
-  </div>
+    <section class="grid3">
+      <div class="memeCard">
+        <div class="memeImg">🐱📈</div>
+        <div style="font-weight:1000;">NEKO reads the chart</div>
+        <div style="color:var(--muted); font-weight:850; margin-top:6px;">
+          Calm eyes. Sharp claws. Zero fear.
+        </div>
+      </div>
+      <div class="memeCard">
+        <div class="memeImg">🐾🪙</div>
+        <div style="font-weight:1000;">Liquidity spotted</div>
+        <div style="color:var(--muted); font-weight:850; margin-top:6px;">
+          Tail flick = incoming pounce.
+        </div>
+      </div>
+      <div class="memeCard">
+        <div class="memeImg">😼🧸</div>
+        <div style="font-weight:1000;">Bears fear her</div>
+        <div style="color:var(--muted); font-weight:850; margin-top:6px;">
+          The cat purrs through red candles.
+        </div>
+      </div>
+    </section>
 
-  <div class="ticker">
-    <span id="tickerText">
-      $SLIME • ABSORB THE DUMP • FEED THE GOO • LOW IQ HIGH VISCOSITY • $SLIME • ABSORB THE DUMP • FEED THE GOO •
-    </span>
-  </div>
+    <div class="levelUp" style="margin-top:30px;">
+      <div class="bar"></div>
+      <div class="tag"><span class="wiggle">🐱</span> JOIN THE HUNT</div>
+      <div class="bar"></div>
+    </div>
 
-  <footer>
-    <div>© <span id="y"></span> $SLIME — Born on pump.fun</div>
-    <div><a href="https://pump.fun" target="_blank" rel="noopener" style="color:var(--muted)">Launch on pump.fun</a></div>
-  </footer>
+    <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap; margin-top:10px;">
+      <a class="buy" href="https://pump.fun/coin/4TUr5tUwW1kvA8BNgoP9MtGayAuAydQqwFtofnE6pump" target="_blank" rel="noopener">
+        <span class="wiggle">🐱</span> BUY $NEKO <span style="opacity:.9;">→</span>
+      </a>
+      <button class="btn" id="copyBtn2" type="button">📋 Copy Token</button>
+    </div>
 
-</div>
+    <footer>
+      $NEKO — ネコノミ 🐾<br/>
+      She reads charts, hunts liquidity, and purrs through the market. (づ｡◕‿‿◕｡)づ
+    </footer>
+  </main>
 
-<script>
-  document.getElementById("y").textContent = new Date().getFullYear();
+  <div class="toast" id="toast">Copied ✅</div>
 
-  // Fake "live" numbers (visual only)
-  // Starts at a tiny price, wiggles around, and updates volume + tx/min.
-  let price = 0.00000042;
-  let vol = 18250;
-  let tx = 19;
+  <script>
+    const token = "4TUr5tUwW1kvA8BNgoP9MtGayAuAydQqwFtofnE6pump";
+    const toast = document.getElementById("toast");
 
-  function fmtMoney(n){
-    if(n >= 1e9) return "$" + (n/1e9).toFixed(2) + "B";
-    if(n >= 1e6) return "$" + (n/1e6).toFixed(2) + "M";
-    if(n >= 1e3) return "$" + (n/1e3).toFixed(1) + "K";
-    return "$" + Math.floor(n).toString();
-  }
-
-  function fmtPrice(p){
-    // show 6 decimals minimum, more if tiny
-    if(p < 0.000001) return "$" + p.toFixed(8);
-    return "$" + p.toFixed(6);
-  }
-
-  function vibeLabel(){
-    const vibes = ["MAX", "INSANE", "GOO'D", "SOAKED", "FERAL", "SLIMY"];
-    return vibes[Math.floor(Math.random()*vibes.length)];
-  }
-
-  function tick(){
-    // price wiggle
-    const wiggle = (Math.random() - 0.48) * 0.00000008; // tiny moves
-    price = Math.max(0.00000001, price + wiggle);
-
-    // volume + tx drift
-    vol = Math.max(0, vol + Math.floor((Math.random()-0.35) * 900));
-    tx  = Math.max(1, tx  + Math.floor((Math.random()-0.45) * 6));
-
-    document.getElementById("livePrice").textContent = fmtPrice(price);
-    document.getElementById("liveVol").textContent = fmtMoney(vol);
-    document.getElementById("liveTx").textContent = tx.toString();
-
-    // occasional vibe swap
-    if(Math.random() < 0.35){
-      document.getElementById("liveVibe").textContent = vibeLabel();
+    function showToast(msg){
+      toast.textContent = msg;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 1100);
     }
-  }
 
-  tick();
-  setInterval(tick, 1200);
+    async function copyToken(){
+      try{
+        await navigator.clipboard.writeText(token);
+        showToast("Token copied ✅");
+      }catch(e){
+        const ta = document.createElement("textarea");
+        ta.value = token;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        showToast("Token copied ✅");
+      }
+    }
 
-  // Make ticker feel "alive" by swapping a phrase sometimes
-  const ticker = document.getElementById("tickerText");
-  const phrases = [
-    "$SLIME • ABSORB THE DUMP •",
-    "FEED THE GOO •",
-    "LOW IQ • HIGH VISCOSITY •",
-    "NO THOUGHTS • JUST GOO •",
-    "WE LIKE THE BLOB •"
-  ];
-  setInterval(() => {
-    const a = phrases[Math.floor(Math.random()*phrases.length)];
-    const b = phrases[Math.floor(Math.random()*phrases.length)];
-    ticker.textContent = `${a} ${b} ${a} ${b} ${a} ${b}`;
-  }, 5500);
-</script>
+    document.getElementById("copyBtn").addEventListener("click", copyToken);
+    document.getElementById("copyBtn2").addEventListener("click", copyToken);
+
+    // randomize floaters so it feels alive
+    document.querySelectorAll(".floater").forEach((el) => {
+      const size = 18 + Math.floor(Math.random() * 18);
+      el.style.fontSize = size + "px";
+      const top = 110 + Math.floor(Math.random() * 40);
+      el.style.top = top + "vh";
+    });
+  </script>
 </body>
 </html>
