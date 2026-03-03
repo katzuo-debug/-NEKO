@@ -1,117 +1,77 @@
-import React from "react";
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>$SLIME — The Cutest Goo on Solana</title>
+  <meta name="description" content="$SLIME — cute pixel goo. Born on pump.fun. Built for vibes." />
 
-const TOKEN_NAME = "NEKONOMI";
-const TOKEN_JP = "ネコノミ";
-const TICKER = "$NEKO";
+  <!-- Social preview -->
+  <meta property="og:title" content="$SLIME — The Cutest Goo on Solana" />
+  <meta property="og:description" content="Cute pixel goo. Born on pump.fun. Built for vibes." />
+  <meta property="og:image" content="https://i.ibb.co/zTmZfZvd/Screenshot-20260302-164917-Chat-GPT.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
 
-const LOGO_DATA_URI = ""; // optional
+  <style>
+    body{
+      margin:0;
+      font-family:Arial, sans-serif;
+      background:#0b0f14;
+      color:white;
+      text-align:center;
+    }
+    .container{
+      max-width:900px;
+      margin:auto;
+      padding:40px 20px;
+    }
+    h1{
+      font-size:48px;
+      margin-bottom:10px;
+    }
+    p{
+      color:#b8c0cc;
+      font-size:18px;
+    }
+    .btn{
+      display:inline-block;
+      margin-top:25px;
+      padding:14px 22px;
+      font-size:18px;
+      font-weight:bold;
+      border-radius:12px;
+      background:linear-gradient(135deg,#6bff9b,#49d8ff);
+      color:black;
+      text-decoration:none;
+    }
+    img{
+      margin-top:30px;
+      max-width:100%;
+      image-rendering:pixelated;
+    }
+    footer{
+      margin-top:40px;
+      font-size:12px;
+      color:#777;
+    }
+  </style>
+</head>
 
-function Button({ children, href }) {
-  return (
-    <a
-      href={href}
-      className="inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold tracking-wide transition bg-white text-black hover:opacity-90"
-    >
-      {children}
+<body>
+  <div class="container">
+    <h1>$SLIME</h1>
+    <p>The tiny green blob that survived the bear market.<br>
+    No roadmap. No promises. Just vibes.</p>
+
+    <a class="btn" href="https://pump.fun" target="_blank">
+      🚀 Buy on pump.fun
     </a>
-  );
-}
 
-export default function NekonomiHomepage() {
-  return (
-    <div className="min-h-screen bg-black text-white font-[Inter]">
-      {/* Subtle background glow */}
-      <div className="pointer-events-none fixed inset-0 -z-10">
-        <div className="absolute left-1/2 top-[-200px] h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-pink-600/20 blur-[120px]" />
-      </div>
+    <img src="https://i.ibb.co/zTmZfZvd/Screenshot-20260302-164917-Chat-GPT.jpg" alt="SLIME mascot">
 
-      {/* Navigation */}
-      <nav className="border-b border-white/10">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
-          <div className="flex items-center gap-3">
-            <div className="h-2.5 w-2.5 rounded-full bg-pink-500" />
-            <span className="text-sm tracking-[0.3em] font-semibold">{TOKEN_NAME}</span>
-          </div>
-          <Button href="#buy">Buy on Pump.fun</Button>
-        </div>
-      </nav>
-
-      {/* Hero */}
-      <header className="mx-auto grid max-w-6xl grid-cols-1 gap-12 px-6 py-24 lg:grid-cols-2 lg:items-center">
-        <div>
-          <div className="mb-6 text-sm tracking-[0.4em] text-white/60">{TOKEN_JP}</div>
-          <h1 className="text-5xl font-light leading-tight tracking-tight md:text-6xl">
-            {TOKEN_NAME} <span className="text-white/40">({TICKER})</span>
-          </h1>
-          <p className="mt-6 max-w-xl text-lg text-white/60 leading-relaxed">
-            A refined meme coin experience built on Solana. Minimal design.
-            Clean presence. Pure narrative.
-          </p>
-
-          <div className="mt-10 flex flex-wrap gap-4">
-            <Button href="#buy">Enter the Market</Button>
-            <a href="#about" className="text-sm text-white/60 hover:text-white transition">
-              Learn more
-            </a>
-          </div>
-        </div>
-
-        <div className="flex justify-center">
-          {LOGO_DATA_URI ? (
-            <img
-              src={LOGO_DATA_URI}
-              alt="NEKONOMI logo"
-              className="w-full max-w-md rounded-3xl border border-white/10 shadow-2xl"
-            />
-          ) : (
-            <div className="flex h-[380px] w-[380px] items-center justify-center rounded-3xl border border-white/10 bg-white/5 text-white/40">
-              Logo Placeholder
-            </div>
-          )}
-        </div>
-      </header>
-
-      {/* About */}
-      <section id="about" className="border-t border-white/10">
-        <div className="mx-auto max-w-4xl px-6 py-24 text-center">
-          <h2 className="text-3xl font-light tracking-tight">Minimal. Intentional. Premium.</h2>
-          <p className="mt-6 text-white/60 leading-relaxed">
-            NEKONOMI is positioned as a clean, aesthetic-first meme coin brand.
-            No noise. No clutter. Just sharp identity and strong market presence.
-          </p>
-        </div>
-      </section>
-
-      {/* Buy */}
-      <section id="buy" className="border-t border-white/10">
-        <div className="mx-auto max-w-4xl px-6 py-24">
-          <h2 className="text-2xl font-light tracking-tight">How to Buy</h2>
-          <div className="mt-10 space-y-6 text-white/70">
-            <div>
-              <strong className="text-white">1.</strong> Install Phantom Wallet and fund with SOL.
-            </div>
-            <div>
-              <strong className="text-white">2.</strong> Visit Pump.fun and search for {TICKER}.
-            </div>
-            <div>
-              <strong className="text-white">3.</strong> Execute your trade.
-            </div>
-          </div>
-
-          <div className="mt-12">
-            <Button href="#">Go to Pump.fun</Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="border-t border-white/10">
-        <div className="mx-auto max-w-6xl px-6 py-16 text-center text-white/40 text-sm">
-          {TOKEN_NAME} {TOKEN_JP} — Built on Solana.
-          <br />
-          This website is for informational and community purposes only.
-        </div>
-      </footer>
-    </div>
-  );
-}
+    <footer>
+      © 2026 $SLIME — Born on pump.fun
+    </footer>
+  </div>
+</body>
+</html>
